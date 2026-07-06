@@ -1,0 +1,138 @@
+name: Python CI
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: Python version for all jobs.
+        required: false
+        type: string
+        default: "3.11"
+      poetry-version:
+        description: Poetry version to install.
+        required: false
+        type: string
+        default: "1.8.3"
+      pytest-args:
+        description: Extra arguments passed to pytest.
+        required: false
+        type: string
+        default: '-m "not integration"'
+      run-mypy:
+        description: Run the typecheck job (set false for untyped legacy repos).
+        required: false
+        type: boolean
+        default: true
+      working-directory:
+        description: Path to the Poetry project root.
+        required: false
+        type: string
+        default: "."
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  poetry-check:
+    name: poetry-check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Setup Poetry (no install)
+        uses: ./.github/actions/setup-poetry
+        with:
+          python-version: ${{ inputs.python-version }}
+          poetry-version: ${{ inputs.poetry-version }}
+          working-directory: ${{ inputs.working-directory }}
+          install-dependencies: "false"
+
+      - name: Verify lockfile exists
+        shell: bash
+        run: test -f poetry.lock
+
+      - name: poetry check
+        shell: bash
+        run: poetry check
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+        with:
+          python-version: ${{ inputs.python-version }}
+          poetry-version: ${{ inputs.poetry-version }}
+          working-directory: ${{ inputs.working-directory }}
+
+      - name: Ruff lint
+        shell: bash
+        run: poetry run ruff check .
+
+      - name: Ruff format
+        shell: bash
+        run: poetry run ruff format --check .
+
+  typecheck:
+    name: typecheck
+    if: ${{ inputs.run-mypy }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+        with:
+          python-version: ${{ inputs.python-version }}
+          poetry-version: ${{ inputs.poetry-version }}
+          working-directory: ${{ inputs.working-directory }}
+
+      - name: mypy
+        shell: bash
+        run: poetry run mypy .
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+        with:
+          python-version: ${{ inputs.python-version }}
+          poetry-version: ${{ inputs.poetry-version }}
+          working-directory: ${{ inputs.working-directory }}
+
+      - name: pytest
+        shell: bash
+        run: poetry run pytest ${{ inputs.pytest-args }}
+
+  security:
+    name: security
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/actions/setup-poetry
+        with:
+          python-version: ${{ inputs.python-version }}
+          poetry-version: ${{ inputs.poetry-version }}
+          working-directory: ${{ inputs.working-directory }}
+
+      - name: pip-audit
+        shell: bash
+        run: poetry run pip-audit
