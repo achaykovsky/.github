@@ -77,6 +77,8 @@ poetry lock
 poetry install
 ```
 
+CI will fail with `pyproject.toml changed significantly since poetry.lock was last generated` until `poetry.lock` is committed.
+
 ### Minimal tool configuration
 
 Add to `pyproject.toml` if not already present:
