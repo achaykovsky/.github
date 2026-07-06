@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: Setup Poetry (no install)
-        uses: ./.github/actions/setup-poetry
+        uses: achaykovsky/.github/.github/actions/setup-poetry@main
         with:
           python-version: ${{ inputs.python-version }}
           poetry-version: ${{ inputs.poetry-version }}
@@ -68,7 +68,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: Setup Poetry
-        uses: ./.github/actions/setup-poetry
+        uses: achaykovsky/.github/.github/actions/setup-poetry@main
         with:
           python-version: ${{ inputs.python-version }}
           poetry-version: ${{ inputs.poetry-version }}
@@ -91,7 +91,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: Setup Poetry
-        uses: ./.github/actions/setup-poetry
+        uses: achaykovsky/.github/.github/actions/setup-poetry@main
         with:
           python-version: ${{ inputs.python-version }}
           poetry-version: ${{ inputs.poetry-version }}
@@ -109,7 +109,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: Setup Poetry
-        uses: ./.github/actions/setup-poetry
+        uses: achaykovsky/.github/.github/actions/setup-poetry@main
         with:
           python-version: ${{ inputs.python-version }}
           poetry-version: ${{ inputs.poetry-version }}
@@ -127,7 +127,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
     steps:
       - name: Setup Poetry
-        uses: ./.github/actions/setup-poetry
+        uses: achaykovsky/.github/.github/actions/setup-poetry@main
         with:
           python-version: ${{ inputs.python-version }}
           poetry-version: ${{ inputs.poetry-version }}
