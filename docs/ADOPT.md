@@ -56,7 +56,7 @@ jobs:
       run-mypy: false
 ```
 
-When `run-mypy` is `false`, remove `ci / typecheck` from the ruleset for that repo only.
+When `run-mypy` is `false`, remove `ci / typecheck` from the ruleset for that repo only (see [REQUIRED_CHECKS.md](REQUIRED_CHECKS.md#check-names)).
 
 ## 2. Add dev dependencies
 
