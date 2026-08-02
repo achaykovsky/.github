@@ -4,9 +4,8 @@
 
 ## Test plan
 
-- [ ] `poetry check` passes locally
-- [ ] `poetry run ruff check .` and `poetry run ruff format --check .` pass
-- [ ] `poetry run mypy .` passes (or N/A with `run-mypy: false` in CI)
-- [ ] `poetry run pytest` passes with the same args as CI
-- [ ] `poetry run pip-audit` reports no blocking vulnerabilities
-- [ ] All five CI checks are green on this PR before merge
+- [ ] Job `name:` values and ruleset `context` entries match [docs/REQUIRED_CHECKS.md](docs/REQUIRED_CHECKS.md) and [rulesets/main-protection.json](rulesets/main-protection.json)
+- [ ] [docs/ADOPT.md](docs/ADOPT.md) and [README.md](README.md) updated if workflow inputs, check names, or caller contract changed
+- [ ] No duplicate policy added across [.github/copilot-instructions.md](.github/copilot-instructions.md) and `.github/instructions/*.instructions.md` (link to the canonical file instead)
+- [ ] Ruleset JSON validates; `bypass_actors` remains `[]` unless explicitly justified
+- [ ] Required checks green on this PR before merge
