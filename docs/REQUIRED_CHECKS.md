@@ -1,6 +1,8 @@
-# Required checks
+# Required checks (Python)
 
-Canonical status check names for repos that call [python-ci.yml](../.github/workflows/python-ci.yml) with caller job id **`ci`**.
+**Canonical source** for Python status check names when a repo calls [python-ci.yml](../.github/workflows/python-ci.yml) with caller job id **`ci`**. Do not duplicate this table elsewhere — link here from `README.md`, adoption docs, and review instructions.
+
+For code-review context (conditional jobs, cache keys), see [.github/instructions/python.instructions.md](../.github/instructions/python.instructions.md).
 
 ## Check names
 
@@ -23,6 +25,8 @@ ci / security
 | `ci / security` | `security` | `pip-audit` |
 
 If you rename the caller job from `ci`, every check name changes (`my-job / lint`, etc.). Keep the caller job id as `ci` across all repos for consistent rulesets.
+
+When `run-mypy: false`, remove `ci / typecheck` from the ruleset for that repo only.
 
 ## Enable the ruleset
 
